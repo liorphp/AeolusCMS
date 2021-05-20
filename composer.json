@@ -1,0 +1,14 @@
+{
+  "name": "liorphp/aeoluscms",
+  "type": "library",
+  "description": "small cms for php developers",
+  "keywords": ["cms", "content-management", "website", "php", "twig" ],
+  "homepage": "http://picocms.org/",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.3.0",
+    "twig/twig": "^3.0",
+    "phpfastcache/phpfastcache": "8.*",
+    "lichtner/fluentpdo": "^2.2.0"
+  }
+}
