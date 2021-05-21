@@ -5,6 +5,11 @@
   "keywords": ["cms", "content-management", "website", "php", "twig" ],
   "homepage": "http://picocms.org/",
   "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "AeolusCMS\\": "src/AeolusCMS/"
+    }
+  },
   "require": {
     "php": ">=7.4.0",
     "twig/twig": "^3.0",
