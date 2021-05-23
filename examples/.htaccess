@@ -1,0 +1,26 @@
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+    Deny from all
+</FilesMatch>
+
+php_value session.gc_maxlifetime 604800
+
+Options -MultiViews
+RewriteEngine On
+Options -Indexes
+
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteCond $1 !^(index\.php|custom|uploads|uploads_thumbs|assets|robots\.txt)
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+
+RedirectMatch 404 /\.git
+RewriteRule ^Vendor/.*\.php$ - [F,L]

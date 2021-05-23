@@ -20,6 +20,14 @@ define('CACHE_TIME_LV11', 60 * 60 * 24 * 30);
 class AeolusPhpFastCache extends CacheManager {
     private static $_cache_key = '';
 
+    const CACHE_TAG_TEMPLATE = 'template';
+    const CACHE_TAG_HOME_PAGE = 'home_page';
+    const CACHE_TAG_MENU = 'cache_tag_menu';
+    const CACHE_TAG_BLOCK = 'cache_tag_block';
+    const CACHE_TAG_ALBUM = 'cache_tag_album';
+    const CACHE_TAG_ARTICLES = 'cache_articles';
+    const CACHE_TAG_PAGES = 'cache_tag_pages';
+
     public static function getAppInstance($type = 'files', $config = null, $cache_key = null) {
         static $instance;
 

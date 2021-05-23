@@ -12,9 +12,10 @@
   },
   "require": {
     "php": ">=7.4.0",
+    "ext-pdo": "*",
     "twig/twig": "^3.0",
     "phpfastcache/phpfastcache": "8.*",
     "lichtner/fluentpdo": "^2.2.0",
-    "monolog/monolog": "1.*"
+    "monolog/monolog": "2.*"
   }
 }
