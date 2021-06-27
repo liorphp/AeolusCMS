@@ -7,6 +7,7 @@ use AeolusCMS\Helpers\File;
 use AeolusCMS\Helpers\Hooks;
 use AeolusCMS\Libs\Controllers\Controller;
 use AeolusCMS\Libs\UserObject\getUser;
+use AeolusCMS\Libs\View\View;
 use AeolusCMS\Wrappers\AeolusFluentPDO;
 use AeolusCMS\Wrappers\AeolusPhpFastCache;
 
@@ -31,9 +32,12 @@ class App {
     static string $url;
     static bool $header404 = false;
     private static $activeModules = array();
-    /**
-     * @var mixed
-     */
+
+    /* @var View $view */
+    public static $view;
+
+    /* @var boolean $ajaxMode */
+    public static $ajaxMode = false;
 
     /* @var Controller $controllerObj */
     public static $controllerObj;
@@ -106,6 +110,7 @@ class App {
         define('CONTROLLER_PATH', LIBRARY_PATH . '/MVC/Controllers/');
         define('VIEWS_PATH', LIBRARY_PATH . '/MVC/Views/');
         define('CUSTOM_CONTROLLER_PATH', ROOT_PATH . '/custom/MVC/Controllers/');
+        define('CUSTOM_MODEL_PATH', ROOT_PATH . '/custom/MVC/Models/');
         define('CUSTOM_VIEWS_PATH', ROOT_PATH . '/custom/MVC/Views/');
 
         $defaults = array(
@@ -143,6 +148,7 @@ class App {
 
             $url = explode('/', $url);
 
+            self::$app_data->setAttribute('controller', (isset($url[0]) ? $url[0] : self::$config['url']['default_controller']));
             self::$app_data->setAttribute('action', (isset($url[1]) ? $url[1] : self::$config['url']['default_action']));
             self::$app_data->setAttribute('parameter_1', (isset($url[2]) ?? $url[2]));
             self::$app_data->setAttribute('parameter_2', (isset($url[3]) ?? $url[3]));
@@ -151,6 +157,11 @@ class App {
             $url = array();
             self::$app_data->setAttribute('controller', self::$config['url']['default_controller']);
             self::$app_data->setAttribute('action', self::$config['url']['default_action']);
+        }
+
+        if ($this->isAjax()) {
+            self::$ajaxMode = true;
+            self::$app_data->action .= '_ajax';
         }
 
 
@@ -241,5 +252,12 @@ class App {
 
         $cont = new $controller_name();
         $cont->{self::$config['url']['default_action']}($args);
+    }
+
+    public function isAjax() {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return true;
+        }
+        return false;
     }
 }

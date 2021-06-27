@@ -19,7 +19,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 
 RewriteCond $1 !^(index\.php|custom|uploads|uploads_thumbs|assets|robots\.txt)
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.+)$ /examples/index.php?url=$1 [QSA,L]
 
 
 RedirectMatch 404 /\.git

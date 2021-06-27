@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 define('ROOT_PATH', dirname(__file__));
 header('Content-Type: text/html; charset=utf-8');
 
-require '/vendor/autoload.php';
+require '../vendor/autoload.php';
 
 global $activeModules;
 $activeModules = array(
