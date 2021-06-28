@@ -1,8 +1,8 @@
 <?php
-namespace AeolusCMS\Libs\DBObject;
+namespace AeolusCMS\Libs\DBObjects;
 
-class DBOUser extends DBObject {
-    const TABLE_NAME = 'user';
+class DBOUsers extends DBObject {
+    const TABLE_NAME = 'users';
     protected $_table = self::TABLE_NAME;
 
     const ATTR_ID = 'id';

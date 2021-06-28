@@ -1,5 +1,5 @@
 <?php
-namespace AeolusCMS\Libs\DBObject;
+namespace AeolusCMS\Libs\DBObjects;
 
 use AeolusCMS\App;
 use AeolusCMS\Wrappers\AeolusFluentPDO;

@@ -111,9 +111,9 @@ class App {
         define('VIEWS_PATH', LIBRARY_PATH . '/MVC/Views/');
 
         define('CUSTOM_PATH', ROOT_PATH . '/custom/');
-        define('CUSTOM_CONTROLLER_PATH', CUSTOM_PATH . 'Controllers/');
-        define('CUSTOM_MODEL_PATH', CUSTOM_PATH . 'Models/');
-        define('CUSTOM_VIEWS_PATH', CUSTOM_PATH . 'Views/');
+        define('CUSTOM_CONTROLLER_PATH', CUSTOM_PATH . 'MVC/Controllers/');
+        define('CUSTOM_MODEL_PATH', CUSTOM_PATH . 'MVC/Models/');
+        define('CUSTOM_VIEWS_PATH', CUSTOM_PATH . 'MVC/Views/');
 
         $defaults = array(
             'url' => array(
