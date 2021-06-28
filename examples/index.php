@@ -23,4 +23,8 @@ $config = array(
     )
 );
 
-$app = new \AeolusCMS\App($config);
+try {
+    $app = new \AeolusCMS\App($config);
+} catch (\Exception $e) {
+
+}

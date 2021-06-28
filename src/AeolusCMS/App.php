@@ -109,9 +109,11 @@ class App {
 
         define('CONTROLLER_PATH', LIBRARY_PATH . '/MVC/Controllers/');
         define('VIEWS_PATH', LIBRARY_PATH . '/MVC/Views/');
-        define('CUSTOM_CONTROLLER_PATH', ROOT_PATH . '/custom/MVC/Controllers/');
-        define('CUSTOM_MODEL_PATH', ROOT_PATH . '/custom/MVC/Models/');
-        define('CUSTOM_VIEWS_PATH', ROOT_PATH . '/custom/MVC/Views/');
+
+        define('CUSTOM_PATH', ROOT_PATH . '/custom/');
+        define('CUSTOM_CONTROLLER_PATH', CUSTOM_PATH . 'Controllers/');
+        define('CUSTOM_MODEL_PATH', CUSTOM_PATH . 'Models/');
+        define('CUSTOM_VIEWS_PATH', CUSTOM_PATH . 'Views/');
 
         $defaults = array(
             'url' => array(
@@ -124,6 +126,22 @@ class App {
         self::$config = array_merge($defaults, $config);
 
         require_once LIBRARY_PATH . '/Functions/functions.php';
+
+        spl_autoload_register(function ($class) {
+            $class_sep = explode("\\", $class);
+            if ($class_sep[0] == 'Custom') {
+                array_shift($class_sep);
+                $class = \implode('\\', $class_sep);
+
+                $file = CUSTOM_PATH . str_replace('\\', '/', $class) . '.php';
+
+                if (is_readable($file)) {
+                    require_once($file);
+                } else {
+                    throw new \Exception('AutoLoad: The file ' . $class . '.php is missing in the Custom folder', 2);
+                }
+            }
+        });
     }
 
     private function dbConnection() {
