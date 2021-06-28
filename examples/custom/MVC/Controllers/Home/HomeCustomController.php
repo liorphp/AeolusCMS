@@ -1,6 +1,5 @@
 <?php
 use AeolusCMS\MVC\Controllers\Home\HomeController;
-use AeolusCMS\MVC\Models\HomeCustomModel;
 
 class HomeCustomController extends HomeController {
     /* @var HomeCustomModel $this->model */

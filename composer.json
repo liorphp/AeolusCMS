@@ -1,9 +1,8 @@
 {
   "name": "liorphp/aeoluscms",
   "type": "library",
-  "description": "small cms for php developers",
-  "keywords": ["cms", "content-management", "website", "php", "twig" ],
-  "homepage": "http://picocms.org/",
+  "description": "small MVC for php developers",
+  "keywords": ["cms", "content-management", "website", "php", "twig", "mvc" ],
   "license": "MIT",
   "autoload": {
     "psr-4": {
