@@ -1,14 +1,15 @@
 <?php
 namespace AeolusCMS\Libs\UserObject;
 
+use AeolusCMS\Libs\DBObjects\DBOUsers;
 use AeolusCMS\Wrappers\AeolusPhpFastCache;
 
 class getUser {
-    const SESSION_NAME = 'user_data';
+    const SESSION_NAME = 'user_data_sess';
 
     /* @var UserObject $_userObject */
     private $_userObject = null;
-    /* @var DBOUser $_userDbo */
+    /* @var DBOUsers $_userDbo */
     private $_userDbo = null;
     private $_userId = null;
     private $_userData = array();
@@ -23,11 +24,11 @@ class getUser {
 
         if ($this->_userId) {
 
-            $this->_userDbo = new DBOUser();
+            $this->_userDbo = new DBOUsers();
             $this->_userData = $this->setUserData();
-            $this->_userAttributes = $this->setUserAttributes();
+            $this->_userAttributes = array();
 
-            switch ($this->_userData->{DBOUser::ATTR_TYPE}) {
+            switch ($this->_userData->{DBOUsers::ATTR_TYPE}) {
                 case 0:
                     $this->_userObject = new UserRegular();
                     break;
@@ -89,38 +90,38 @@ class getUser {
     }
 
     public function getHash() {
-        return $this->getData(DBOUser::ATTR_HASH);
+        return $this->getData(DBOUsers::ATTR_HASH);
     }
 
     public function getType() {
-        return $this->getData(DBOUser::ATTR_TYPE);
+        return $this->getData(DBOUsers::ATTR_TYPE);
     }
 
     public function getFirstName() {
-        return $this->getData(DBOUser::ATTR_FIRST_NAME);
+        return $this->getData(DBOUsers::ATTR_FIRST_NAME);
     }
 
     public function getLastName() {
-        return $this->getData(DBOUser::ATTR_LAST_NAME);
+        return $this->getData(DBOUsers::ATTR_LAST_NAME);
     }
 
     public function getFullName() {
-        $f_name = $this->getData(DBOUser::ATTR_FIRST_NAME);
-        $l_name = $this->getData(DBOUser::ATTR_LAST_NAME);
+        $f_name = $this->getData(DBOUsers::ATTR_FIRST_NAME);
+        $l_name = $this->getData(DBOUsers::ATTR_LAST_NAME);
 
         if ($f_name || $l_name) {
-            return $this->getData(DBOUser::ATTR_FIRST_NAME) . ' ' . $this->getData(DBOUser::ATTR_LAST_NAME);
+            return $this->getData(DBOUsers::ATTR_FIRST_NAME) . ' ' . $this->getData(DBOUsers::ATTR_LAST_NAME);
         } else {
             return $this->getUsername();
         }
     }
 
     public function getUsername() {
-        return $this->getData(DBOUser::ATTR_USERNAME);
+        return $this->getData(DBOUsers::ATTR_USERNAME);
     }
 
     public function isActive(): bool {
-        return (boolean)$this->getData(DBOUser::ATTR_ACTIVE);
+        return (boolean)$this->getData(DBOUsers::ATTR_ACTIVE);
     }
 
     public function isAdmin(): bool {
