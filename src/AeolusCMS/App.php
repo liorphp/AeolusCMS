@@ -103,6 +103,10 @@ class App {
     }
 
     private function setConfig(array $config) {
+        session_set_cookie_params(604800);
+        session_start();
+        header('Content-Type: text/html; charset=utf-8');
+
         define('SHOW_COMMENT_WRAP', true);
 
         define('LIBRARY_PATH', dirname(__file__));
