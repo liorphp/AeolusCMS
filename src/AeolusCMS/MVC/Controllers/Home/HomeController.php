@@ -11,7 +11,6 @@ class HomeController extends SiteController {
     public $model;
 
     protected function preLoader() {
-        /* @var HomeModel $this->model */
         $this->model = loadModel::load('Home');
     }
     
