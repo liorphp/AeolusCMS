@@ -178,7 +178,7 @@ class View {
 
     static public function registerControllerCssJs() {
         $controller = App::$app_data->getAttribute('controller');
-        $js_file = PUBLIC_APP_URL . 'js_controllers/' . $controller . '.js';
+        $js_file =  CUSTOM_PATH . 'js_controllers/' . $controller . '.js';
 
         if (File::fileExists(ROOT_PATH . $js_file)) {
             self::addJs($js_file);

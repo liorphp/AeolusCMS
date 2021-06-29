@@ -8,11 +8,6 @@ use AeolusCMS\Libs\View\AdminView;
 
 class AdmController extends Controller {
     protected function systemPreLoader() {
-
-        if (isset($_SESSION['user_data']) && isset($_SESSION['login_as_user'])) {
-            App::$user = new getUser($_SESSION['user_data']['id']);
-        }
-
         if (!App::$user->isAdmin()) {
             redirectToHome();
         }
