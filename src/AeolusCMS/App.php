@@ -46,6 +46,7 @@ class App {
     public function __construct($config = array()) {
         $this->setConfig($config);
         $this->init();
+        $this->appStarting();
 
         if (!is_null(self::$controllerObj)) {
             $action = self::$app_data->getAttribute('action');
@@ -75,7 +76,7 @@ class App {
             }
         }
 
-        $this->appStating();
+        $this->appEnding();
     }
 
     private function init() {
@@ -100,7 +101,13 @@ class App {
         $this->splitUrl();
     }
 
-    private function appStating(){
+    private function appStarting(){
+        self::$hooks->do_action('application_header');
+    }
+
+    private function appEnding() {
+        self::$hooks->do_action('application_footer');
+        unset($_SESSION["redirect"]);
     }
 
     private function setConfig(array $config) {
