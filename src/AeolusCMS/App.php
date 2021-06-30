@@ -5,6 +5,7 @@ use AeolusCMS\Helpers\Cookie;
 use AeolusCMS\Helpers\dataObj;
 use AeolusCMS\Helpers\File;
 use AeolusCMS\Helpers\Hooks;
+use AeolusCMS\Helpers\Hooks_list;
 use AeolusCMS\Libs\Controllers\Controller;
 use AeolusCMS\Libs\UserObject\getUser;
 use AeolusCMS\Libs\View\View;
@@ -118,6 +119,7 @@ class App {
         define('CUSTOM_CONTROLLER_PATH', CUSTOM_PATH . 'MVC/Controllers/');
         define('CUSTOM_MODEL_PATH', CUSTOM_PATH . 'MVC/Models/');
         define('CUSTOM_VIEWS_PATH', CUSTOM_PATH . 'MVC/Views/');
+        define('CUSTOM_HOOKS_PATH', CUSTOM_PATH . 'Hooks/');
 
         $defaults = array(
             'url' => array(
@@ -159,7 +161,51 @@ class App {
     }
 
     private function loadInit() {
+        $activeModules = self::$activeModules;
 
+        $hook_list_app = AeolusPhpFastCache::showKey('init_modules_hooks', function() use($activeModules) {
+            $hook_list_array = array();
+
+            if (file_exists(CUSTOM_HOOKS_PATH . 'app_hooks.php')) {
+                $hook_list_array[] = array(
+                    'file' => CUSTOM_HOOKS_PATH . 'app_hooks.php',
+                    'class_name' => 'app',
+                );
+            }
+
+            if (defined('SYSTEM_NAME')) {
+                if (file_exists(CUSTOM_HOOKS_PATH . SYSTEM_NAME . '_hooks.php')) {
+                    $hook_list_array[] = array(
+                        'file' => CUSTOM_HOOKS_PATH . SYSTEM_NAME . '_hooks.php',
+                        'class_name' => SYSTEM_NAME,
+                    );
+                }
+            }
+
+            foreach($activeModules as $module) {
+                $url = CONTROLLER_PATH . $module . '/init.php';
+                if (file_exists($url)) {
+                    $hook_list_array[] = array(
+                        'file' => $url,
+                        'class_name' => $module,
+                    );
+                }
+
+                $url = CUSTOM_CONTROLLER_PATH . $module . '/init.php';
+                if (file_exists($url)) {
+                    $hook_list_array[] = array(
+                        'file' => $url,
+                        'class_name' => $module . 'Custom',
+                    );
+                }
+            }
+            return $hook_list_array;
+        }, CACHE_TIME_LV11);
+
+        foreach($hook_list_app as $hook) {
+            require_once $hook['file'];
+            Hooks_list::new_hook_class($hook['class_name']);
+        }
     }
 
     private function splitUrl() {
