@@ -3,7 +3,6 @@ namespace AeolusCMS\Libs\Controllers;
 
 use AeolusCMS\App;
 use AeolusCMS\Helpers\retAjax;
-use AeolusCMS\Libs\UserObject\getUser;
 use AeolusCMS\Libs\View\AdminView;
 
 class AdmController extends Controller {

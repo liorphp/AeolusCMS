@@ -157,6 +157,14 @@ class App {
         });
     }
 
+    static function getConfig($key) {
+        if (isset(self::$config[$key])) {
+            return self::$config[$key];
+        } else {
+            return null;
+        }
+    }
+
     private function dbConnection() {
         try {
             $options = array(\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4");

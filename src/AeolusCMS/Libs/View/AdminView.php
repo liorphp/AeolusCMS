@@ -1,7 +1,6 @@
 <?php
 namespace AeolusCMS\Libs\View;
 
-
 use AeolusCMS\App;
 use AeolusCMS\Libs\Menu\Menu;
 

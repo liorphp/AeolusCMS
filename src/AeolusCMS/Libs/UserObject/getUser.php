@@ -1,8 +1,8 @@
 <?php
 namespace AeolusCMS\Libs\UserObject;
 
+use AeolusCMS\App;
 use AeolusCMS\Libs\DBObjects\DBOUsers;
-use AeolusCMS\Wrappers\AeolusPhpFastCache;
 
 class getUser {
     const SESSION_NAME = 'user_data_sess';
@@ -35,8 +35,26 @@ class getUser {
                 case 70:
                     $this->_userObject = new UserAdmin();
                     break;
-                default:
-                    $this->_userObject = new UserGuest();
+                default: {
+                    $custom_user_objects = App::getConfig('user_objects');
+                    if ($custom_user_objects && isset($custom_user_objects[$this->_userData->{DBOUsers::ATTR_TYPE}])) {
+
+                        $custom_uo = $custom_user_objects[$this->_userData->{DBOUsers::ATTR_TYPE}];
+                        $custom_uo_file = CUSTOM_PATH . 'UserObject/' . $custom_uo . '.php';
+
+                        if (file_exists($custom_uo_file)) {
+                            require_once $custom_uo_file;
+
+                            $user_object = 'Custom\\UserObject\\' . $custom_uo;
+                            $this->_userObject = new $user_object();
+                        }
+
+                    } else {
+                        $this->_userObject = new UserGuest();
+                    }
+
+                    break;
+                }
             }
         } else {
             $this->_userObject = new UserGuest();
@@ -44,17 +62,7 @@ class getUser {
     }
 
     public function setUserData($reset = false) {
-        $key = 'user_data_' . $this->loggedInId();
-        $userDbo = $this->_userDbo;
-        $userId = $this->loggedInId();
-
-        if ($reset) {
-            AeolusPhpFastCache::deleteItem($key);
-        }
-
-        return  AeolusPhpFastCache::showKey($key, function() use ($userDbo, $userId) {
-            return $userDbo->findById($userId)->getResult();
-        }, CACHE_TIME_LV4, array('user_data'));
+        return $this->_userDbo->findById($this->loggedInId())->getResult();
     }
 
     public function getDataArray() {
