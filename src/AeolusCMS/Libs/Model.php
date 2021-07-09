@@ -2,7 +2,7 @@
 namespace AeolusCMS\Libs;
 
 use AeolusCMS\App;
-use AeolusCMS\Libs\DBObject\DBObject;
+use AeolusCMS\Libs\DBObjects\DBObject;
 use AeolusCMS\Libs\View\View;
 
 class Model extends AeolusObj {
@@ -26,4 +26,3 @@ class Model extends AeolusObj {
         return $this->dbo->find($select, $where)->getResult();
     }
 }
-
