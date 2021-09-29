@@ -22,4 +22,22 @@ class DBOUsers extends DBObject {
     const ATTR_PHONE = 'phone';
     const ATTR_FILES_DIR = 'files_dir';
     const ATTR_COMMENT = 'comment';
+
+    protected $_validColumns = array(
+        self::ATTR_ID,
+        self::ATTR_TYPE,
+        self::ATTR_PARENT,
+        self::ATTR_USERNAME,
+        self::ATTR_PASSWORD,
+        self::ATTR_PASSWORD_HASH,
+        self::ATTR_HASH,
+        self::ATTR_REGISTER,
+        self::ATTR_LAST_LOGIN,
+        self::ATTR_LAST_VISIT,
+        self::ATTR_ACTIVE,
+        self::ATTR_FIRST_NAME,
+        self::ATTR_PHONE,
+        self::ATTR_FILES_DIR,
+        self::ATTR_COMMENT,
+    );
 }

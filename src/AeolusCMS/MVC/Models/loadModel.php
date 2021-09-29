@@ -2,11 +2,12 @@
 namespace AeolusCMS\MVC\Models;
 
 use AeolusCMS\Helpers\File;
+use AeolusCMS\Libs\Model;
 
 class loadModel {
     static $models = array();
 
-    public static function load($model_name) {
+    public static function load($model_name) : Model {
         if (!in_array($model_name, self::$models)) {
             self::$models[$model_name] = self::getModelObject($model_name);
         }
