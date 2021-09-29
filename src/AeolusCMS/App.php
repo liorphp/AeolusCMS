@@ -233,9 +233,9 @@ class App {
 
             self::$app_data->setAttribute('controller', (isset($url[0]) ? $url[0] : self::$config['url']['default_controller']));
             self::$app_data->setAttribute('action', (isset($url[1]) ? $url[1] : self::$config['url']['default_action']));
-            self::$app_data->setAttribute('parameter_1', (isset($url[2]) ?? $url[2]));
-            self::$app_data->setAttribute('parameter_2', (isset($url[3]) ?? $url[3]));
-            self::$app_data->setAttribute('parameter_3', (isset($url[4]) ?? $url[4]));
+            self::$app_data->setAttribute('parameter_1', (isset($url[2]) ? $url[2] : null));
+            self::$app_data->setAttribute('parameter_2', (isset($url[3]) ? $url[3] : null));
+            self::$app_data->setAttribute('parameter_3', (isset($url[4]) ? $url[4] : null));
         } else {
             $url = array();
             self::$app_data->setAttribute('controller', self::$config['url']['default_controller']);
