@@ -36,6 +36,7 @@ class DBOUsers extends DBObject {
         self::ATTR_LAST_VISIT,
         self::ATTR_ACTIVE,
         self::ATTR_FIRST_NAME,
+        self::ATTR_LAST_NAME,
         self::ATTR_PHONE,
         self::ATTR_FILES_DIR,
         self::ATTR_COMMENT,
