@@ -388,7 +388,7 @@ class View {
         return '<'. $wrap['type'] . $extra .'>'. $html .'</'. $wrap['type'] .'>';
     }
 
-    static function showBlock($block_name, $params = array(), $wrap = array(), $full_path = false, $use_comments_wrap = true) {
+    static function showBlock($block_name, $params = array(), $wrap = array(), $full_path = false, $use_comments_wrap = false) {
         try {
             $block_tpl = AeolusPhpFastCache::showKey('show_block_' . $block_name, function() use ($block_name, $full_path) {
                 $path = '';
