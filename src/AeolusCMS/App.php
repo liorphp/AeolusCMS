@@ -43,6 +43,8 @@ class App {
     /* @var Controller $controllerObj */
     public static $controllerObj;
 
+    private static $user_hash = null;
+
     public function __construct($config = array()) {
         $this->setConfig($config);
         $this->init();
@@ -342,5 +344,13 @@ class App {
             return true;
         }
         return false;
+    }
+
+    public static function getUserHash() {
+        return self::$user_hash;
+    }
+
+    public static function setUserHash(string $user_hash) {
+        self::$user_hash = $user_hash;
     }
 }
