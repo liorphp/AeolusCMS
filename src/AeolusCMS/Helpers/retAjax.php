@@ -24,7 +24,8 @@ class retAjax {
     static private $alert = array();
     static private $alertArray = array();
     static private $extra_array_ret = array();
-    
+    static private $urlLoads = array();
+
     static public function hasFatalError($mode = true) {
         self::$fatalError = $mode;
     }
@@ -99,6 +100,10 @@ class retAjax {
         self::$responseContentType = $type;
     }
 
+    static public function setUrlLoad($item_id) {
+        self::$urlLoads[] = $item_id;
+    }
+
     static public function ajaxResult($array) {
         @\header("Cache-Control: no-cache, must-revalidate", true);
         @\header("Expires: Sat, 26 Jul 1997 05:00:00 GMT", true);
@@ -149,6 +154,10 @@ class retAjax {
 
             if (!empty(self::$alertArray)) {
                 $ret['alertsArray'] = self::$alertArray;
+            }
+
+            if (!empty(self::$urlLoads)) {
+                $ret['urlLoads'] = self::$urlLoads;
             }
     
             $ret['html'] = self::$html;
