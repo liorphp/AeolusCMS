@@ -1,6 +1,8 @@
 <?php
 namespace AeolusCMS\Helpers;
 
+use AeolusCMS\App;
+
 class retAjax {
     const ALERT_TYPE_SUCCESS = 'success';
     const ALERT_TYPE_ERROR = 'error';
@@ -168,6 +170,8 @@ class retAjax {
                 $ret[$key] = $value;
             }
         }
+
+        App::$hooks->do_action('ret_ajax_return', array(&$ret, 1));
                 
         self::ajaxResult($ret);
     }
