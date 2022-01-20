@@ -353,4 +353,9 @@ class App {
     public static function setUserHash(string $user_hash) {
         self::$user_hash = $user_hash;
     }
+
+    public static function setNoPHPLimits() {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
+    }
 }
