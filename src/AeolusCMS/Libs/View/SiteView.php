@@ -58,18 +58,24 @@ class SiteView extends View {
     }
 
     static function renderBlankHeader() {
-        $header_vars = array(
+
+        $header_vars = array();
+
+        App::$hooks->do_action('site_view_header_vars', array(&$header_vars, ''));
+
+        $header_vars = array_merge($header_vars, array(
             'header_scope' => self::getVars(View::$_header_scope),
             'page_title' => self::getPageTitle(),
             'page_h1' => self::getH1(),
             'head_tags' => self::getHeadTags(),
             'body_classes' => parent::getBodyClasses(),
-        );
+        ));
+
         return static::showBlock('_general/header_blank', $header_vars);
     }
 
     static public function renderBlankFooter($layout) {
-        return '';
+        return static::showBlock('_general/footer_blank' . $layout, self::getFooterVars($layout));
     }
 
     static public function getMeta(): array {

@@ -235,10 +235,12 @@ class View {
             echo static::renderBlankHeader();
         }
 
-        if ($tpl == '')
-            require VIEWS_PATH . App::realControllerName(App::$app_data->getAttribute('render_controller')) . '/' . static::$tpl_name . self::TPL_EXT;
-        else
-            require VIEWS_PATH . $tpl . self::TPL_EXT;
+        if ($tpl == '' && !$tpl = static::$tpl_override_full) {
+            $controller = App::realControllerName(App::$app_data->getAttribute('controller'));
+            $tpl = $controller .'/' . static::$tpl_name;
+        }
+
+        echo static::showBlock($tpl, $tpl_vars);
 
         if (!$just_middle) {
             echo static::renderBlankFooter($layout);
