@@ -413,6 +413,10 @@ class View {
                 $block_name => $block_tpl,
             ]);
             $twig = new \Twig\Environment($loader);
+
+            $twig->addFilter(new \Twig\TwigFilter('encrypt_num','encrypt_num'));
+            $twig->addFilter(new \Twig\TwigFilter('decrypt_num','decrypt_num'));
+
             $block = $twig->render($block_name, $params);
 
             if ($use_comments_wrap) {
