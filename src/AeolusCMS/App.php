@@ -131,6 +131,7 @@ class App {
         define('CUSTOM_HOOKS_PATH', CUSTOM_PATH . 'Hooks/');
 
         $defaults = array(
+            'encrypt_param' => 85,
             'url' => array(
                 'default_controller' => 'home',
                 'default_action' => 'index'

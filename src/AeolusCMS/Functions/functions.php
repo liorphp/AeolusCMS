@@ -34,7 +34,7 @@ function encrypt_num($input) {
         $i++; // For the loop to function
     }
  
-    $encrypted = implode('.', $inputchr) . '.' . (ord($randkey)+85);
+    $encrypted = implode('.', $inputchr) . '.' . (ord($randkey)+\AeolusCMS\App::getConfig('encrypt_param'));
     return base64_encode($encrypted);
 }
 
@@ -46,7 +46,7 @@ function decrypt_num($input) {
     $x = count($dec);
     $y = $x-1;// To get the key of the last bit in the array 
 
-    $calc = $dec[$y]-85;
+    $calc = $dec[$y]-\AeolusCMS\App::getConfig('encrypt_param');
     $randkey = chr($calc);// works out the randkey number
 
     $i = 0;
