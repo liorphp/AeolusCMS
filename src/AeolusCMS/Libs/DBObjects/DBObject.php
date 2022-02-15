@@ -211,7 +211,11 @@ class DBObject {
             $query->ignore();
         }
 
-        return $query->execute();
+        if ($this->_foreignKey) {
+            return $query->execute();
+        } else {
+            return $query->executeWithoutId();
+        }
     }
 
     public function count($where = array()) {
