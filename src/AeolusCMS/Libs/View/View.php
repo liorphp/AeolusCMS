@@ -417,6 +417,8 @@ class View {
             $twig->addFilter(new \Twig\TwigFilter('encrypt_num','encrypt_num'));
             $twig->addFilter(new \Twig\TwigFilter('decrypt_num','decrypt_num'));
 
+            App::$hooks->do_action('twig_filters', array(&$twig, 1));
+
             $block = $twig->render($block_name, $params);
 
             if ($use_comments_wrap) {
