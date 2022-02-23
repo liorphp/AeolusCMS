@@ -317,7 +317,7 @@ class App {
     }
 
     private function ShowErrorPage($req_controller = true) {
-        self::$hooks->do_action('appliction_error_page');
+        self::$hooks->do_action('application_error_page');
 
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
         header("Status: 404 Not Found");
@@ -331,13 +331,13 @@ class App {
             'parameter_3' => self::$app_data->getAttribute('parameter_3')
         );
 
-        self::$app_data->setAttribute('controller', self::$config['url']['default_controller']);
-        self::$app_data->setAttribute('action', self::$config['url']['default_action']);
+        self::$app_data->setAttribute('controller', self::$config['url']['error_controller']);
+        self::$app_data->setAttribute('action', self::$config['url']['error_action']);
 
-        $controller_name = self::loadController(self::$config['url']['default_controller']);
+        $controller_name = self::loadController(self::$config['url']['error_controller']);
 
         $cont = new $controller_name();
-        $cont->{self::$config['url']['default_action']}($args);
+        $cont->{self::$config['url']['error_action']}($args);
     }
 
     public function isAjax() {
