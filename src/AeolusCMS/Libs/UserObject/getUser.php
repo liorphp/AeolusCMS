@@ -44,7 +44,7 @@ class getUser {
                     break;
                 default: {
                     $custom_user_objects = App::getConfig('user_objects');
-                    if ($custom_user_objects && isset($custom_user_objects[$this->_userData->{DBOUsers::ATTR_TYPE}])) {
+                    if ($custom_user_objects && isset($custom_user_objects[$user_type])) {
 
                         $custom_uo = $custom_user_objects[$user_type];
                         $custom_uo_file = CUSTOM_PATH . 'UserObject/' . $custom_uo . '.php';
