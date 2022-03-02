@@ -29,10 +29,10 @@ class getUser {
             $this->_userAttributes = array();
 
             switch ($this->_userData->{DBOUsers::ATTR_TYPE}) {
-                case 0:
+                case UserRegular::ACCESS_NUM:
                     $this->_userObject = new UserRegular();
                     break;
-                case 70:
+                case UserAdmin::ACCESS_NUM:
                     $this->_userObject = new UserAdmin();
                     break;
                 default: {
