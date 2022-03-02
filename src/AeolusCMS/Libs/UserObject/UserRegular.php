@@ -2,5 +2,5 @@
 namespace AeolusCMS\Libs\UserObject;
 
 class UserRegular extends UserObject {
-    const ACCESS_NUM = 0;
+    const ACCESS_NUM = 10;
 }
