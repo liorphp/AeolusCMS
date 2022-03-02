@@ -28,7 +28,14 @@ class getUser {
             $this->_userData = $this->setUserData();
             $this->_userAttributes = array();
 
-            switch ($this->_userData->{DBOUsers::ATTR_TYPE}) {
+            if (!isset($this->_userData->{DBOUsers::ATTR_TYPE})) {
+                $user_type = -1;
+                $this->_userId = 0;
+            } else {
+                $user_type = $this->_userData->{DBOUsers::ATTR_TYPE};
+            }
+
+            switch ($user_type) {
                 case UserRegular::ACCESS_NUM:
                     $this->_userObject = new UserRegular();
                     break;
@@ -39,7 +46,7 @@ class getUser {
                     $custom_user_objects = App::getConfig('user_objects');
                     if ($custom_user_objects && isset($custom_user_objects[$this->_userData->{DBOUsers::ATTR_TYPE}])) {
 
-                        $custom_uo = $custom_user_objects[$this->_userData->{DBOUsers::ATTR_TYPE}];
+                        $custom_uo = $custom_user_objects[$user_type];
                         $custom_uo_file = CUSTOM_PATH . 'UserObject/' . $custom_uo . '.php';
 
                         if (file_exists($custom_uo_file)) {
