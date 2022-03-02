@@ -48,7 +48,7 @@ class Controller extends AeolusObj {
 
     protected function checkUserAccessOnAdmin($access) {
         if (!\checkUserAccess($access)) {
-            redirectToAdmin();
+            redirectToHome();
         }
     }
 }
