@@ -101,6 +101,10 @@ class getUser {
         return $this->getData(DBOUsers::ATTR_TYPE);
     }
 
+    public function getParent() {
+        return $this->getData(DBOUsers::ATTR_PARENT);
+    }
+
     public function getFirstName() {
         return $this->getData(DBOUsers::ATTR_FIRST_NAME);
     }
