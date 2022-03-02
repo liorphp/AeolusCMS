@@ -106,7 +106,7 @@ class getUser {
     }
 
     public function getParentElseMe(): int {
-        $ret = intval(this->getParent());
+        $ret = intval($this->getParent());
         if (!$ret) {
             $ret = intval($this->loggedInId());
         }
