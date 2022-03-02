@@ -105,6 +105,15 @@ class getUser {
         return $this->getData(DBOUsers::ATTR_PARENT);
     }
 
+    public function getParentElseMe(): int {
+        $ret = intval(this->getParent());
+        if (!$ret) {
+            $ret = intval($this->loggedInId());
+        }
+
+        return $ret;
+    }
+
     public function getFirstName() {
         return $this->getData(DBOUsers::ATTR_FIRST_NAME);
     }
