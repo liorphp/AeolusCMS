@@ -148,6 +148,10 @@ class getUser {
         return (boolean)$this->getData(DBOUsers::ATTR_ACTIVE);
     }
 
+    public function isVerify(): bool {
+        return (boolean)$this->getData(DBOUsers::ATTR_VERIFY);
+    }
+
     public function isAdmin(): bool {
         return $this->_userObject->isAdmin();
     }

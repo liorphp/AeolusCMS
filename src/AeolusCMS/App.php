@@ -98,7 +98,6 @@ class App {
 
         self::$user = new getUser();
 
-
         $this->loadInit();
         $this->splitUrl();
     }
@@ -179,6 +178,8 @@ class App {
     }
 
     private function loadInit() {
+        self::$hooks->do_action('before_load_init');
+
         $activeModules = self::$activeModules;
 
         $hook_list_app = AeolusPhpFastCache::showKey('init_modules_hooks', function() use($activeModules) {
