@@ -94,7 +94,11 @@ class getUser {
 
     public function loggedInId($reset = false) {
         if ($reset || $this->_userId === null) {
-            $this->_userId = (isset($_SESSION[self::SESSION_NAME]['id'])) ? $_SESSION[self::SESSION_NAME]['id'] : 0;
+            if (isset($_SESSION['login_as_user'])) {
+                $this->_userId = $_SESSION['login_as_user'];
+            } else {
+                $this->_userId = (isset($_SESSION[self::SESSION_NAME]['id'])) ? $_SESSION[self::SESSION_NAME]['id'] : 0;
+            }
         }
 
         return $this->_userId;
