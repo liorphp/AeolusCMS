@@ -20,6 +20,8 @@ class AdminController extends AdmController {
             $controller_name = $this->get->getAttribute('am');
             $action_name = $this->get->getAttribute('ac');
 
+            App::$hooks->do_action('admin_page', array($controller_name, $action_name));
+
             App::$app_data->setAttribute('render_controller', $controller_name);
             $this->renderAdminController($controller_name, $action_name);
 
