@@ -17,7 +17,8 @@ class AdminView extends View {
         $short_links = array();
         App::$hooks->do_action('admin_short_links', array(&$short_links, 1));
 
-        $header_vars = array(
+        App::$hooks->do_action('admin_view_header_vars', array(&$header_vars, $layout));
+        $header_vars = array_merge($header_vars, array(
             'page_title' => self::getPageTitle(),
             'css_files' => self::showCss(),
             'current_pam' => App::$get->getAttribute('pam'),
@@ -26,7 +27,8 @@ class AdminView extends View {
             'admin_menu' => $menu->getMenuItems(),
             'short_links' => $short_links,
             'user_data' => App::$user
-        );
+        ));
+
         return self::showBlock('_layouts/_admin/Header', $header_vars);
     }
 
