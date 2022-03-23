@@ -20,6 +20,7 @@ class AdminView extends View {
         App::$hooks->do_action('admin_view_header_vars', array(&$header_vars, $layout));
         $header_vars = array_merge($header_vars, array(
             'page_title' => self::getPageTitle(),
+            'body_classes' => parent::getBodyClasses(),
             'css_files' => self::showCss(),
             'current_pam' => App::$get->getAttribute('pam'),
             'current_am' => App::$get->getAttribute('am'),
