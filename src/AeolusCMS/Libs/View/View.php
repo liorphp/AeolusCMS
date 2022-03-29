@@ -416,6 +416,8 @@ class View {
 
             $twig->addFilter(new \Twig\TwigFilter('encrypt_num','encrypt_num'));
             $twig->addFilter(new \Twig\TwigFilter('decrypt_num','decrypt_num'));
+            $twig->addFilter(new \Twig\TwigFilter('showDate','showDate'));
+            $twig->addFilter(new \Twig\TwigFilter('num_format','num_format'));
 
             App::$hooks->do_action('twig_filters', array(&$twig, 1));
 
