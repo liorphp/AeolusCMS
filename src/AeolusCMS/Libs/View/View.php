@@ -204,7 +204,7 @@ class View {
 
         if ($tpl == '' && !$tpl = static::$tpl_override_full) {
             $controller = App::realControllerName(App::$app_data->getAttribute('controller'));
-            $tpl = $controller .'/' . static::$tpl_name;
+            $tpl = $controller .'/' . \strtolower(static::$tpl_name);
         }
 
         echo static::showBlock($tpl, $tpl_vars);
