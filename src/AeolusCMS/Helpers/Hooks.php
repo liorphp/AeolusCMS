@@ -369,7 +369,7 @@ namespace AeolusCMS\Helpers;
 
               try {
                   call_user_func_array(array($the_['class'], $the_['function']), $func_args[0]);
-              } catch (Exception $e) {
+              } catch (\Exception $e) {
                   AeolusErrorsLog::sendException($e, array(
                       'class' => $the_['class'],
                       'function' => $the_['function'],
