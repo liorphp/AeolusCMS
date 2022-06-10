@@ -178,8 +178,6 @@ class App {
     }
 
     private function loadInit() {
-        self::$hooks->do_action('before_load_init');
-
         $activeModules = self::$activeModules;
 
         $hook_list_app = AeolusPhpFastCache::showKey('init_modules_hooks', function() use($activeModules) {
@@ -225,6 +223,8 @@ class App {
             require_once $hook['file'];
             Hooks_list::new_hook_class($hook['class_name']);
         }
+
+        self::$hooks->do_action('after_load_init');
     }
 
     private function splitUrl() {
