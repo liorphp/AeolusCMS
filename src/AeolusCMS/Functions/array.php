@@ -45,7 +45,7 @@ function array_map_keys(array $array, callable $callable) : array {
 function array_to_x_editable_source($array) {
     $ret = array();
     foreach ($array as $key => $val) {
-        $ret[] = "'".$key."' : '". $val ."'";
+        $ret[] = "'".$key."' : '". \addslashes($val) ."'";
     }
 
     return '{' . implode(', ', $ret) . '}';
