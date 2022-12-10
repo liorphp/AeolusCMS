@@ -13,8 +13,6 @@
     "php": ">=7.4.0",
     "ext-pdo": "*",
     "twig/twig": "^3.0",
-    "phpfastcache/phpfastcache": "8.*",
-    "lichtner/fluentpdo": "2.2.4",
     "monolog/monolog": "2.*"
   }
 }
