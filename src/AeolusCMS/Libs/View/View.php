@@ -419,6 +419,8 @@ class View {
             $twig->addFilter(new \Twig\TwigFilter('showDate','showDate'));
             $twig->addFilter(new \Twig\TwigFilter('num_format','num_format'));
 
+            $twig->addFunction(new \Twig\TwigFunction('showBlock',[App::$controllerObj->view, 'showBlock']));
+
             App::$hooks->do_action('twig_filters', array(&$twig, 1));
 
             $block = $twig->render($block_name, $params);
