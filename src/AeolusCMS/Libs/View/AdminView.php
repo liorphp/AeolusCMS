@@ -17,6 +17,8 @@ class AdminView extends View {
         $short_links = array();
         App::$hooks->do_action('admin_short_links', array(&$short_links, 1));
 
+        $header_vars = array();
+
         App::$hooks->do_action('admin_view_header_vars', array(&$header_vars, $layout));
         $header_vars = array_merge($header_vars, array(
             'page_title' => self::getPageTitle(),
