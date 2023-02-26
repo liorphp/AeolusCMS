@@ -1,6 +1,7 @@
 <?php
 namespace AeolusCMS\Wrappers;
 
+use AeolusCMS\App;
 use Phpfastcache\CacheManager;
 
 define('CACHE_TIME_LV0', 0);
@@ -28,10 +29,19 @@ class AeolusPhpFastCache extends CacheManager {
     const CACHE_TAG_ARTICLES = 'cache_articles';
     const CACHE_TAG_PAGES = 'cache_tag_pages';
 
-    public static function getAppInstance($type = 'files', $config = null, $cache_key = null) {
+    public static function getAppInstance() {
         static $instance;
-
         if (!$instance) {
+            $type = 'files';
+            $config = null;
+            $cache_key = null;
+
+            if ($cache_configs = App::getConfig('cache')){
+                $type = $cache_configs['type'];
+                $config = $cache_configs['config'];
+                $cache_key = $cache_configs['cache_key'];
+            }
+
             $instance = parent::getInstance($type, $config);
 
             if ($cache_key) {
