@@ -319,7 +319,7 @@ class View {
         return $str;
     }
 
-    static function addJs($src, $order = 0,  $group = 'all') {
+    static function addJs($src, $order = 0,  $group = 'all', $defer = false) {
         if ($group == 'all')
             $js_array = & static::$js[$group];
         else
@@ -328,11 +328,11 @@ class View {
         if (!isset($js_array))
             $js_array = array();
 
-        $js_array[] = array('src' => $src, 'order' => $order);
+        $js_array[] = array('src' => $src, 'order' => $order, 'defer' => $defer);
     }
 
-    private static function js_format($src): string {
-        return '<script src="'. $src .'"></script>';
+    private static function js_format($src, $attrs): string {
+        return '<script src="'. $src .'" '. $attrs .'></script>';
     }
 
     static function showJs(): string {
@@ -343,8 +343,13 @@ class View {
         usort(static::$js['all'], 'sortByOrder');
         foreach (static::$js['all'] as $js_file) {
             if (!in_array($js_file['src'], $js_file_inserted)) {
+                $attrs = '';
+                if ($js_file['defer']) {
+                    $attrs .= 'defer';
+                }
+
                 $js_file_inserted[] = $js_file['src'];
-                $js_files .= static::js_format($js_file['src']);
+                $js_files .= static::js_format($js_file['src'], $attrs);
             }
         }
 
@@ -352,7 +357,11 @@ class View {
             usort($js_groups, 'sortByOrder');
             $js_files .= '<!--[if '. $key .']>';
             foreach ($js_groups as $js_groups_file) {
-                $js_files .= static::js_format($js_groups_file['src']);
+                $attrs = '';
+                if ($js_groups_file['defer']) {
+                    $attrs .= 'defer';
+                }
+                $js_files .= static::js_format($js_groups_file['src'], $attrs);
             }
             $js_files .= '<![endif]-->';
         }
