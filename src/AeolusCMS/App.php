@@ -24,6 +24,8 @@ class App {
 
     /* @var DataObj $post */
     public static $post;
+    public static $request;
+    public static $env;
 
     private static $config;
 
@@ -260,8 +262,13 @@ class App {
         self::$get->fromArray($_GET);
         $_GET = array();
 
-        $_REQUEST = $_ENV = array();
+        self::$request = new dataObj();
+        self::$request->fromArray($_REQUEST);
+        $_REQUEST = array();
 
+        self::$env = new dataObj();
+        self::$env->fromArray($_ENV);
+        $_ENV = array();
 
         if (!$controller_name = self::loadController(self::$app_data->getAttribute('controller'))) {
             $controller_name = self::loadController(self::$config['url']['default_controller'] );
