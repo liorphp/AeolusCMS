@@ -230,29 +230,24 @@ class App {
     }
 
     private function splitUrl() {
-        self::$url = urldecode(htmlspecialchars(trim($_SERVER['REQUEST_URI'],  '/')));
 
-        if (isset($_GET['url'])) {
-            $url = htmlspecialchars(rtrim($_GET['url'], '/'));
+        $url
+            = isset($_GET['url'])
+            ? $_GET['url']
+            : $_SERVER['REQUEST_URI'];
 
-            $url = explode('/', $url);
+        $url = explode('/', urldecode(htmlspecialchars(trim($url,  '/'))));
 
-            self::$app_data->setAttribute('controller', (isset($url[0]) ? $url[0] : self::$config['url']['default_controller']));
-            self::$app_data->setAttribute('action', (isset($url[1]) ? $url[1] : self::$config['url']['default_action']));
-            self::$app_data->setAttribute('parameter_1', (isset($url[2]) ? $url[2] : null));
-            self::$app_data->setAttribute('parameter_2', (isset($url[3]) ? $url[3] : null));
-            self::$app_data->setAttribute('parameter_3', (isset($url[4]) ? $url[4] : null));
-        } else {
-            $url = array();
-            self::$app_data->setAttribute('controller', self::$config['url']['default_controller']);
-            self::$app_data->setAttribute('action', self::$config['url']['default_action']);
-        }
+        self::$app_data->setAttribute('controller',  (isset($url[0]) ? $url[0] : self::$config['url']['default_controller']));
+        self::$app_data->setAttribute('action',      (isset($url[1]) ? $url[1] : self::$config['url']['default_action']));
+        self::$app_data->setAttribute('parameter_1', (isset($url[2]) ? $url[2] : null));
+        self::$app_data->setAttribute('parameter_2', (isset($url[3]) ? $url[3] : null));
+        self::$app_data->setAttribute('parameter_3', (isset($url[4]) ? $url[4] : null));
 
         if ($this->isAjax()) {
             self::$ajaxMode = true;
             self::$app_data->action .= '_ajax';
         }
-
 
         self::$post = new dataObj();
         self::$post->fromArray($_POST);
