@@ -111,7 +111,7 @@ class DBObject {
         return $this->_validColumns;
     }
 
-    public function find($select = array(), $where = array(), $orderBy = null, $orderType = self::ORDER_ASC, $limit = array(), $groupBy = null) {
+    public function find($select = array(), $where = array(), $orderBy = '', $orderType = self::ORDER_ASC, $limit = array(), $groupBy = '') {
         $pdo = $this->_db->from($this->getTable());
 
         $this->filterParams($select);
@@ -125,7 +125,7 @@ class DBObject {
         if (!empty($where)) {
             $pdo->where($where);
         }
-        if ($orderBy != null) {
+        if ($orderBy != '') {
             if ($orderType != self::ORDER_ASC && $orderType != self::ORDER_DESC) {
                 $orderType = self::ORDER_ASC;
             }
@@ -137,7 +137,7 @@ class DBObject {
                 $pdo->offset($limit[1]);
             }
         }
-        if ($groupBy != null) {
+        if ($groupBy != '') {
             $pdo->groupBy($groupBy);
         }
 
