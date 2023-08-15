@@ -100,8 +100,10 @@ class DBObject {
     }
 
     protected function validParam(&$name) {
-        if (!empty($this->_validColumns) && !\in_array($name, $this->_validColumns)) {
-            $name = null;
+        if (!\strtolower($name) == 'rand()') {
+            if (!empty($this->_validColumns) && !\in_array($name, $this->_validColumns)) {
+                $name = null;
+            }
         }
     }
 
