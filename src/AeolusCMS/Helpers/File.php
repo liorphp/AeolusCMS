@@ -30,6 +30,11 @@ class File {
             $mode = "w";
         else
             $mode = "a";
+
+        if (!file_exists(dirname($filename))) {
+            mkdir(dirname($filename), 0777, true);
+        }
+
         if($handle = \fopen($filename, $mode)){
             \fwrite($handle, $data);
             \fclose($handle);
