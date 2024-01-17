@@ -50,3 +50,13 @@ function array_to_x_editable_source($array) {
 
     return '{' . implode(', ', $ret) . '}';
 }
+
+function array_value_recursive(array $arr, ?string $key = null, bool $unique = true): array {
+    array_walk_recursive($arr, function ($v, $k) use ($key, &$val) {
+        if (is_null($key) || ($key && $k == $key)) {
+            $val[] = $v;
+        }
+    });
+
+    return $unique ? array_unique($val ?? []) : $val ?? [];
+}
