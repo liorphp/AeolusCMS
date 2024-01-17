@@ -60,3 +60,18 @@ function array_value_recursive(array $arr, ?string $key = null, bool $unique = t
 
     return $unique ? array_unique($val ?? []) : $val ?? [];
 }
+
+function arrayToXml($array, &$xml) {
+    foreach ($array as $key => $value) {
+        if(is_int($key)){
+            $key = "e";
+        }
+        if(is_array($value)){
+            $label = $xml->addChild($key);
+            arrayToXml($value, $label);
+        }
+        else {
+            $xml->addChild($key, $value);
+        }
+    }
+}
