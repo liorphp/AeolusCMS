@@ -11,12 +11,15 @@ class File {
         if (!$remote) {
             if (\file_exists($filename)) {
                 $handle = \fopen($filename, "r");
-                $content = \fread($handle, \filesize($filename));
+                $content = '';
+                if (filesize($filename) > 0) {
+                    $content = \fread($handle, \filesize($filename));
+                }
                 \fclose($handle);
                 return $content;
             }
             else {
-                    return false;                    
+                return '';
             }
         }
         else {
