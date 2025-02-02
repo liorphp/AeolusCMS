@@ -70,7 +70,7 @@ class DBObject {
             $resObj = $this->getResult();
             $firstRes = array_pop($resObj);
             $this->_setResult($firstRes);
-            if ($this->getForeignKey()) {
+            if ($firstRes && $this->getForeignKey()) {
                 $this->_id = $firstRes->{$this->getForeignKey()};
             }
         }
