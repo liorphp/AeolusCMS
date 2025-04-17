@@ -2,25 +2,29 @@
     Header set Access-Control-Allow-Origin "*"
 </IfModule>
 
-<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak)$">
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|inc|bak|git)$">
     Deny from all
 </FilesMatch>
 
 php_value session.gc_maxlifetime 604800
 
 Options -MultiViews
-RewriteEngine On
 Options -Indexes
 
-RewriteBase /
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-l
 
-RewriteCond $1 !^(index\.php|custom|uploads|uploads_thumbs|assets|robots\.txt)
-RewriteRule ^(.+)$ /examples/index.php?url=$1 [QSA,L]
+    RewriteCond $1 !^(index\.php|custom|uploads|uploads_thumbs|assets|robots\.txt)
+    RewriteRule ^(.+)$ /examples/index.php?url=$1 [QSA,L]
 
+    RewriteRule ^Vendor/.*\.php$ - [F,L]
+</IfModule>
 
-RedirectMatch 404 /\.git
-RewriteRule ^Vendor/.*\.php$ - [F,L]
+#<IfModule mod_alias.c>
+#    RedirectMatch 404 /\.git  # use FilesMatch instead, see above
+#</IfModule>
