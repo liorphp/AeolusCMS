@@ -117,15 +117,27 @@ function sortById($a, $b) {
 }
 
 function getUserIp() {
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-        $ip = $_SERVER['REMOTE_ADDR'];
+    // מאחורי Cloudflare זה ה-IP האמיתי, ולא ניתן לזיוף. זה מה שכדאי לסמוך עליו.
+    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])
+        && filter_var($_SERVER['HTTP_CF_CONNECTING_IP'], FILTER_VALIDATE_IP)) {
+        return $_SERVER['HTTP_CF_CONNECTING_IP'];
     }
 
-    return $ip;
+    // Fallbacks לבקשות שלא עברו דרך Cloudflare.
+    // הערה: X-Forwarded-For / Client-IP ניתנים לזיוף, אז לא לסמוך עליהם
+    // היכן שזה קריטי (rate limiting) אלא אם ה-hop הראשון הוא proxy מהימן.
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $first = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]); // יכול להיות רשימה
+        if (filter_var($first, FILTER_VALIDATE_IP)) {
+            return $first;
+        }
+    }
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])
+        && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+    }
+
+    return $_SERVER['REMOTE_ADDR'] ?? null;
 }
 
 function formatBytes($bytes, $precision = 2) {
