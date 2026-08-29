@@ -1,6 +1,8 @@
 <?php
 namespace AeolusCMS\Helpers;
 
+use DirectoryIterator;
+
 class File {
 
     public static function fileExists($filename) {
