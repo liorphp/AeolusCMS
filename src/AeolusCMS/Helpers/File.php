@@ -221,9 +221,11 @@ class File {
      * Writes data into a gzipped tar archive (.tar.gz).
      *
      * @param string|array $data       File content, or array of [innerName => content] for multiple entries.
-     * @param string       $filename   Target path, e.g. /path/backup.tar.gz
-     * @param string|null  $innerName  Name of the file inside the archive. Defaults to the target
-     *                                 file name without the .tar.gz / .tgz / .tar suffix.
+     * @param string       $filename   Target path, e.g. /path/backup.json. The .tar.gz suffix is
+     *                                 appended automatically unless it is already there, so the
+     *                                 file written to disk is /path/backup.json.tar.gz
+     * @param string|null  $innerName  Name of the file inside the archive. Defaults to the original
+     *                                 file name as given (e.g. backup.json).
      * @param int          $level      Gzip compression level, 0-9.
      * @return bool
      */
@@ -232,12 +234,14 @@ class File {
             return false;
         }
 
+        // Keep the original file name for the entry inside the archive,
+        // then append the .tar.gz suffix to the target path on disk.
+        $originalName = \basename($filename);
+        $filename     = self::tarGzPath($filename);
+
         if (!\is_array($data)) {
             if ($innerName === null || $innerName === '') {
-                $innerName = \preg_replace('/\.(tar\.gz|tgz|tar)$/i', '', \basename($filename));
-                if ($innerName === '') {
-                    $innerName = 'file';
-                }
+                $innerName = ($originalName !== '') ? $originalName : 'file';
             }
             $data = array($innerName => $data);
         }
@@ -274,17 +278,26 @@ class File {
     /**
      * Reads a gzipped tar archive (.tar.gz) created by WriteTarGz.
      *
-     * @param string      $filename  Path to the archive.
+     * @param string      $filename  Path to the archive, with or without the .tar.gz suffix.
      * @param string|null $entry     Name of the entry to extract. Null returns the first regular file.
      * @param bool        $all       true returns an associative array of [name => content] for every entry.
      * @return string|array|false    Content, array of contents, or false on failure / missing entry.
      */
     public static function ReadTarGz($filename, $entry = null, $all = false) {
-        if (!\function_exists('gzdecode') || !\file_exists($filename)) {
+        if (!\function_exists('gzdecode')) {
             return false;
         }
 
-        $raw = \file_get_contents($filename);
+        // Accept both "backup.json" and "backup.json.tar.gz".
+        $path = self::tarGzPath($filename);
+        if (!\file_exists($path)) {
+            if (!\file_exists($filename)) {
+                return false;
+            }
+            $path = $filename;
+        }
+
+        $raw = \file_get_contents($path);
         if ($raw === false || $raw === '') {
             return false;
         }
@@ -304,6 +317,22 @@ class File {
         }
 
         return \count($entries) > 0 ? \reset($entries) : false;
+    }
+
+    /**
+     * Returns the real path of the archive on disk: the given file name
+     * with .tar.gz appended, unless it already ends with .tar.gz / .tgz.
+     *
+     * File::tarGzPath('/backups/data.json') => '/backups/data.json.tar.gz'
+     *
+     * @param string $filename
+     * @return string
+     */
+    public static function tarGzPath($filename) {
+        if (\preg_match('/\.(tar\.gz|tgz)$/i', $filename)) {
+            return $filename;
+        }
+        return $filename . '.tar.gz';
     }
 
     /**
