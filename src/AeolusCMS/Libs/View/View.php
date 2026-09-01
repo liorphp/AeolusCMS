@@ -192,25 +192,31 @@ class View {
     static public function render($tpl = '', $scope = '', $just_middle = false, $layout = '') {
         $tpl_vars = static::getVars($scope);
 
-        if (App::$header404) {
-            \header("HTTP/1.0 404 Not Found");
-        }
+        $continue = true;
 
-        static::registerViewCssJs();
-        if ($just_middle !== true) {
-            echo static::renderHeader($layout);
-            \flush();
-        }
+        App::$hooks->do_action('do_before_render', array(&$continue, $tpl, $scope , $just_middle, $layout, $tpl_vars));
 
-        if ($tpl == '' && !$tpl = static::$tpl_override_full) {
-            $controller = App::realControllerName(App::$app_data->getAttribute('controller'));
-            $tpl = $controller .'/' . \strtolower(static::$tpl_name);
-        }
+        if ($continue) {
+            if (App::$header404) {
+                \header("HTTP/1.0 404 Not Found");
+            }
 
-        echo static::showBlock($tpl, $tpl_vars);
+            static::registerViewCssJs();
+            if ($just_middle !== true) {
+                echo static::renderHeader($layout);
+                \flush();
+            }
 
-        if ($just_middle !== true) {
-            echo static::renderFooter($layout);
+            if ($tpl == '' && !$tpl = static::$tpl_override_full) {
+                $controller = App::realControllerName(App::$app_data->getAttribute('controller'));
+                $tpl = $controller .'/' . \strtolower(static::$tpl_name);
+            }
+
+            echo static::showBlock($tpl, $tpl_vars);
+
+            if ($just_middle !== true) {
+                echo static::renderFooter($layout);
+            }
         }
     }
 
